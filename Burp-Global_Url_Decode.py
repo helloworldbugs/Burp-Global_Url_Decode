@@ -13,12 +13,13 @@ class BurpExtender(IBurpExtender, IProxyListener):
     def processProxyMessage(self, messageIsRequest, message):
         info = message.getMessageInfo()
         try:
-            if messageIsRequest:
+            if messageIsRequest:    # 改写请求包
+                # return            # 跳过，不改写请求包
                 raw = info.getRequest()
                 decoded = self.decode_bytes(raw)
                 info.setRequest(decoded)
             else:
-                raw = info.getResponse()
+                raw = info.getResponse()    # 改写响应包
                 if raw:
                     decoded = self.decode_bytes(raw)
                     info.setResponse(decoded)
